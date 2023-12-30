@@ -30,6 +30,7 @@ body {
   background-color: #252323;
   /* Dark brown background color */
   max-width: 75%;
+  height: auto;
   margin: 10% auto;
   overflow-y: auto;
 }

@@ -6,8 +6,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
-//axios.defaults.baseURL = "http://localhost:8080";
+// axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
+axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
 
@@ -360,7 +360,7 @@ function App() {
                                             <td>{ele.bookedServicesData[0].bookingStatus}</td>
                                             <td>{ele.usernameDoctor}</td>
                                             <td>{ele.bookedServicesData[0].customerName}</td>
-                                            <td><button className="btn" onClick={() => veiwclick(ele.bookedServicesData[0].Id)}>View More</button></td>
+                                            <td><button className="btn" onClick={() => veiwclick(ele.bookedServicesData[0].Id)}>More Details</button></td>
                                         </tr>
                                     )
                                 })}
