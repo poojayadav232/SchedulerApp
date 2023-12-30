@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import './App.css';
 import { MdClose } from "react-icons/md"
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-//axios.defaults.baseURL = "https://reminderapp-backend.onrender.com";
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
+//axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
 
