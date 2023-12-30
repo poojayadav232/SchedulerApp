@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Navigation */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  gap: 1%;
+  padding: 1%;
+  background-color: #3498db;
+  /* Blue background color */
+}
+
+.nav-item {
+  margin-right: 1%;
+}
+
+/* Body */
+body {
+  background-color: #3f3d3d;
+  /* Dark gray background color */
+  color: #fff;
+  /* White text color */
+}
+
+/* Container */
+.container {
+  padding: 1%;
+  background-color: #252323;
+  /* Dark brown background color */
+  max-width: 75%;
+  margin: 10% auto;
+  overflow-y: auto;
+}
+
+.section-heading {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3498db;
+  /* Blue color for section heading */
+  margin-bottom: 10px;
+}
+
+/* Button */
+.btn {
+  border: none;
+  padding: 7px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  background-color: #3498db;
+  /* Purple button color */
+  cursor: pointer;
+  color: #fff;
+  /* White text color */
+}
+
+/* Add Container */
+.addcontainer {
+  position: relative;
+  background-color: #fff;
+  /* White background color */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addcontainer form {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  /* White background color */
+  padding: 5% 4%;
+  box-shadow: 5px 5px 10px #888888;
+  /* Dark gray box shadow */
+  border-radius: 5px;
+}
+
+.addcontainer form {
+  font-size: 20px;
+}
+
+.addcontainer form label {
+  font-size: 20px;
+  color: #333;
+  /* Dark gray text color */
+}
+
+.addcontainer form input {
+  font-size: 20px;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  /* Light gray border */
+  border-radius: 3px;
+}
+
+.close-btn {
+  margin-left: 90%;
+  background-color: #e74c3c;
+  /* Red close button color */
+  width: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #fff;
+  /* White text color */
+}
+
+/* Table Container */
+.tableContainer {
+  margin-top: 5%;
+  overflow-x: auto;
+  /* Add horizontal scroll for overflowing content */
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableContainer table thead tr {
+  background-color: #e74c3c;
+  /* Red background color for table header */
+  color: #fff;
+  /* White text color */
+}
+
+.tableContainer table tbody tr {
+  background-color: #383c3b;
+  /* Aquamarine background color for table rows */
+}
+
+.tableContainer table thead tr th,
+.tableContainer table tbody tr td {
+  padding: 1%;
+  overflow-x: auto;
+}
+
+/* Responsive styling using media queries */
+@media screen and (max-width: 768px) {
+
+  .tableContainer table thead tr th,
+  .tableContainer table tbody tr td {
+    min-width: auto;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Navigation for smaller screens */
+  .nav-list {
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  }
+
+  /* Button for smaller screens */
+  .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+/* Date Picker Container */
+.date-picker-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Apply different styles for screens with a max-width of 768 pixels */
+@media (max-width: 768px) {
+  .date-picker-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #selectedDateTime {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    max-width: 200px;
+  }
+}
