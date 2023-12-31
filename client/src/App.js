@@ -48,6 +48,10 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
         }
+        Getbookings();
+        Getreminders();
+        Getdoctors();
+        Getcustumers();
     };
 
 
@@ -76,6 +80,8 @@ function App() {
             console.error('Error:', error);
             alert('Error:', error);
         }
+        Getbookings();
+        Getreminders();
     };
 
     //functions to be called for fetching data in
@@ -148,6 +154,10 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
         }
+        Getbookings();
+        Getreminders();
+        Getdoctors();
+        Getcustumers();
     };
     const Canceled = async (Id) => {
         try {
@@ -156,6 +166,10 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
         }
+        Getbookings();
+        Getreminders();
+        Getdoctors();
+        Getcustumers();
     };
 
 
@@ -240,16 +254,7 @@ function App() {
         setviewSection(false)
         setEditSection(false);
     }
-    function closeviewclick() {
-        setAddSection(false);
-        setBooking(true);
-        setDoctor(false);
-        setCustomer(false);
-        setReminder(false);
-        setRemind(false);
-        setviewSection(false)
-        setEditSection(false);
-    }
+
 
     return (
         <>
