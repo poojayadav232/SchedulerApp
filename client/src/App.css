@@ -1,21 +1,37 @@
 /* Add this to your CSS stylesheet */
 /* added sidebar css */
+*::-webkit-scrollbar {
+  width: 6px;
+  /* Set the width of the scrollbar */
+}
+
+body::-webkit-scrollbar {
+  width: 2px;
+  /* Set the width of the scrollbar */
+}
+
+
+
 .App {
   width: 100vw;
   height: 100vw;
-  background-color: white;
 }
 
 body {
+  background-image: url('https://static.vecteezy.com/system/resources/thumbnails/027/441/219/original/dna-icon-seamless-loop-animation-transparent-background-with-alpha-channel-free-video.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  /* Necessary for overlay */
   margin: 0;
   padding: 0;
-  background-color: rgb(92, 82, 82);
 }
 
 .Sidebar {
   height: 100%;
   width: 15%;
-  background-color: rgb(45, 49, 49);
+  background-color: rgb(67, 167, 167);
 }
 
 ul {
@@ -42,9 +58,10 @@ ul {
   /* border-bottom: solid rgb(250, 250, 250); */
   display: flex;
   flex-direction: row;
-  color: white;
+  color: black;
   justify-content: center;
-  font-family: cursive;
+  font-size: large;
+  font-weight: bold;
 }
 
 .sidebarlist .row:hover {
@@ -67,13 +84,15 @@ ul {
 .header {
   width: 100%;
   height: 10vh;
-  background-color: rgb(45, 49, 49);
+  background-color: rgb(67, 167, 167);
 }
 
 .footer {
   width: 100%;
-  height: 10vh;
-  background-color: rgb(45, 49, 49);
+  height: max-content;
+  font-size: large;
+  font-weight: 500;
+  background-color: rgb(67, 167, 167);
 }
 
 .centerpart {
@@ -90,6 +109,7 @@ ul {
   overflow-y: scroll;
 }
 
+
 .main {
   display: flex;
   flex-direction: column;
@@ -98,7 +118,6 @@ ul {
 /* no css */
 
 .container {
-  background-color: rgb(37, 35, 35);
   overflow-y: auto;
   width: auto;
   text-align: center;
@@ -120,7 +139,7 @@ ul {
 .btnnew {
   display: inline-block;
   padding: auto auto auto auto;
-  background-color: #2e7498;
+  background-color: #6dbfe8;
   color: #090909;
   text-align: left;
   cursor: pointer;
@@ -131,16 +150,15 @@ ul {
 }
 
 .red {
-  background-color: red;
+  background-color: rgb(243, 79, 79);
 }
 
 .green {
-  background-color: green;
+  background-color: rgb(140, 243, 140);
 }
 
 .addcontainer {
   position: relative;
-  background-color: rgb(43, 40, 40);
   left: 0;
   right: 0;
   bottom: 0;
@@ -154,7 +172,7 @@ ul {
   width: 70%;
   display: flex;
   flex-direction: column;
-  background-color: rgb(216, 154, 154);
+  background-color: rgb(241, 241, 241);
   padding: 5% 4%;
   box-shadow: 5px 5px 10px grey;
   border-radius: 5px;
@@ -187,12 +205,16 @@ ul {
 
 
 .tableContainer table {
-  width: 100%;
+  justify-content: center;
+  width: 80%;
   border-collapse: collapse;
+  margin-left: 10%;
+  margin-top: 5%;
 }
 
 .tableContainer table thead tr {
-  background-color: grey;
+  background-color: rgb(8, 8, 8);
+  color: white;
 }
 
 .tableContainer table tbody tr {
@@ -221,7 +243,139 @@ table {
 }
 
 
+
+
+.top img {
+  margin-top: 30px;
+  width: 90%;
+  height: auto;
+  border-radius: 10%;
+}
+
+.para {
+  justify-content: center;
+}
+
+.homesect {
+  color: rgb(222, 222, 222);
+  font-weight: bolder;
+}
+
+.para p {
+  width: 100%;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.imaging {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.imaging img {
+  padding: 10px;
+  width: 50%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.cards {
+  font: large;
+  font-weight: bold;
+  color: rgb(255, 254, 254);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+  width: 40%;
+  border-radius: 10%;
+  border: solid rgb(3, 3, 3);
+  margin-top: 10px;
+}
+
+.card img {
+  padding-top: 2%;
+  width: 30vh;
+  border-radius: 50%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 85%;
+  height: 100%;
+  background-color: rgba(35, 40, 35, 0.5);
+  /* Adjust the alpha (last value) to control opacity */
+  z-index: 1;
+  /* Make sure the overlay appears above other elements */
+}
+
+.container {
+  z-index: 2;
+  /* Ensure content appears above the overlay */
+  position: relative;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  margin: 0;
+  /* Center content horizontally */
+  padding: 0;
+  /* Adjust as needed */
+}
+
+th {
+  background-color: rgb(56, 52, 52);
+}
+
+
+
 @media screen and (max-width: 500px) {
+  .cards {
+    font: large;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card {
+    color: white;
+    width: 100%;
+    border-radius: 10%;
+    border: solid wheat;
+    margin-top: 10px;
+  }
+
+  .card img {
+    width: 80%;
+  }
+
+  .btn {
+    width: 80%;
+    height: 50%;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    top: 10%;
+    right: 0;
+    width: 100%;
+    height: 90%;
+    /* Adjust the alpha (last value) to control opacity */
+    z-index: 1;
+    /* Make sure the overlay appears above other elements */
+  }
+
 
   .tableContainer table thead tr th,
   .tableContainer table tbody tr td {
@@ -236,10 +390,6 @@ table {
     width: auto;
   }
 
-  .btn {
-    width: 100%;
-    margin-bottom: 5px;
-  }
 
   .date-picker-container {
     flex-direction: column;
@@ -266,7 +416,8 @@ table {
 
   .Sidebar {
     width: 100%;
-    height: 20%;
+    height: 10%;
+    font-size: small;
   }
 
   .sidebarlist {
@@ -286,34 +437,4 @@ table {
     align-items: start;
     display: grid;
   }
-}
-
-.top img {
-  width: 100%;
-  height: auto;
-}
-
-.para {
-  justify-content: center;
-}
-
-.homesect {
-  color: wheat
-}
-
-.para p {
-  width: 100%;
-}
-
-.image-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.image-container img {
-  padding: 10px;
-  width: 50vh;
-  height: 35vh;
-  border-radius: 5vh;
 }

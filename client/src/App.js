@@ -4,11 +4,13 @@ import './App.css';
 // import { SidebarData } from "./sidebar";
 import { MdClose } from "react-icons/md"
 import DatePicker from "react-datepicker";
+import axios, { AxiosError } from "axios"
 import "react-datepicker/dist/react-datepicker.css";
 import { FaHome } from "react-icons/fa";
-import { AiFillAmazonCircle } from "react-icons/ai";
-import { GrTree } from "react-icons/gr";
-import { MdDashboard } from "react-icons/md";
+import { FaJediOrder } from "react-icons/fa";
+import { PiUsersFourFill } from "react-icons/pi";
+import { FaUserDoctor } from "react-icons/fa6";
+import { MdScheduleSend } from "react-icons/md";
 
 
 axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
@@ -48,6 +50,7 @@ function App() {
         formData.append('doctorEmail', e.target.hiddenDoctorEmail.value);
         formData.append('doctorTimezone', e.target.hiddenDoctorTimezone.value);
 
+
         let data = {};
         formData.forEach((value, key) => {
             data[key] = value;
@@ -57,12 +60,9 @@ function App() {
             const response = await axios.post('/api/booking-details', data);
             console.log(response);
             alert(response.data.message);
-            e.target.reset();
-            // Manually reset values for disabled fields
-            e.target.usernameDoctor.value = singledoctor.usernameDoctor;
-            e.target.accId.value = singledoctor.accId;
-            e.target.doctorEmail.value = singledoctor.doctorEmail;
-            e.target.doctorTimezone.value = singledoctor.doctorTimezone;
+            Getbookings();
+            Getreminders();
+            Getcustumers();
 
         } catch (error) {
             console.error('Error:', error);
@@ -295,9 +295,10 @@ function App() {
 
     return (
         <>
-            <div className='main'>
-                <div className='header'>
 
+            <div className='main'>
+
+                <div className='header'>
                 </div>
                 <div className='centerpart'>
                     <div className='Sidebar'>
@@ -309,33 +310,34 @@ function App() {
                             </li>
                             <li className='row'
                                 onClick={() => bookingclick()}>
-                                <div id="icon"><FaHome /></div>
-                                <div id="title">Bookings</div>
+                                <div id="icon"><FaJediOrder /></div>
+                                <div id="title">AllBookings</div>
                             </li>
                             <li className='row'
                                 onClick={() => doctorclick()}>
-                                <div id="icon"><AiFillAmazonCircle /></div>
-                                <div id="title">Doctors</div>
+                                <div id="icon"><FaUserDoctor /></div>
+                                <div id="title">AllDoctors</div>
                             </li>
                             <li className='row'
                                 onClick={() => customerclick()}>
-                                <div id="icon"><GrTree /></div>
-                                <div id="title">Customers</div>
+                                <div id="icon"><PiUsersFourFill /></div>
+                                <div id="title">Patients</div>
                             </li>
                             <li className='row'
                                 onClick={() => Reminderclick()}>
-                                <div id="icon"><MdDashboard /></div>
-                                <div id="title">Reminders</div>
+                                <div id="icon"><MdScheduleSend /></div>
+                                <div id="title">Schedules</div>
                             </li>
                         </ul>
                     </div>
+                    <div class="overlay"></div>
                     <div className='content'>
                         <div className="container">
                             {
                                 homesection && (
                                     <div className="homesect">
                                         <div className="top">
-                                            <img src="https://wallpapercave.com/wp/wp8463082.jpg" alt="Starting Image" />
+                                            <img src="https://wallpapercave.com/wp/wp2968489.jpg" alt="Starting Image" />
                                             <div className="para">
                                                 <h1>Welcome to Doctor Website</h1>
                                                 <p>In this website we are listed specialist doctors you can choose a
@@ -352,17 +354,25 @@ function App() {
                                             <p>Your main content goes here in a div or any suitable container.</p>
                                         </div>
                                         <div className="image-container">
-                                            <div>
-                                                <img src="https://static.vecteezy.com/system/resources/previews/005/307/230/non_2x/healthcare-and-medicine-concept-smart-medical-doctor-working-with-stethoscope-at-modern-hospital-free-photo.jpg" alt="Image 1" />
-                                                <p>Description for Image 1</p>
+                                            <div className="imaging">
+                                                <div>
+                                                    <img src="https://static.vecteezy.com/system/resources/previews/005/307/230/non_2x/healthcare-and-medicine-concept-smart-medical-doctor-working-with-stethoscope-at-modern-hospital-free-photo.jpg" alt="Image 1" />
+                                                    <p>Description for Image 1</p>
+                                                </div>
+                                                <div>
+                                                    <img src="https://wallpapercave.com/wp/wp2968489.jpg" alt="Image 2" />
+                                                    <p>Description for Image 2</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <img src="https://wallpapercave.com/wp/wp2968489.jpg" alt="Image 2" />
-                                                <p>Description for Image 2</p>
-                                            </div>
-                                            <div>
-                                                <img src="https://wallpapers.com/images/hd/doctor-crossing-arms-smxscfldh0j8iq9w.jpg" alt="Image 3" />
-                                                <p>Description for Image 3</p>
+                                            <div className="imaging">
+                                                <div>
+                                                    <img src="https://static.vecteezy.com/system/resources/previews/005/307/230/non_2x/healthcare-and-medicine-concept-smart-medical-doctor-working-with-stethoscope-at-modern-hospital-free-photo.jpg" alt="Image 1" />
+                                                    <p>Description for Image 1</p>
+                                                </div>
+                                                <div>
+                                                    <img src="https://wallpapercave.com/wp/wp2968489.jpg" alt="Image 2" />
+                                                    <p>Description for Image 2</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -461,30 +471,22 @@ function App() {
                             }
                             {
                                 doctorsection && (<div className="tableContainer">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Doctor ID</th>
-                                                <th>Doctor Name</th>
-                                                <th>Doctor Email</th>
-                                                <th>Doctor Timezone</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div>
+                                        <div className="cards">
                                             {doctorsData.doctors.map((ele) => {
                                                 return (
-                                                    <tr>
-                                                        <td>{ele.accId}</td>
-                                                        <td>{ele.usernameDoctor}</td>
-                                                        <td>{ele.doctorEmail}</td>
-                                                        <td>{ele.doctorTimezone}</td>
-                                                        <td onClick={() => addclick(ele.accId)}><button className="btn">Book Appoinment</button></td>
-                                                    </tr>
+                                                    <div className="card">
+                                                        <div><img src={ele.doctorimage} /></div>
+                                                        <div>{ele.accId}</div>
+                                                        <div>{ele.usernameDoctor}</div>
+                                                        <div>{ele.doctorEmail}</div>
+                                                        <div>{ele.doctorTimezone}</div>
+                                                        <div onClick={() => addclick(ele.accId)}><button className="btn">Book Appoinment</button></div>
+                                                    </div>
                                                 )
                                             })}
-                                        </tbody>
-                                    </table>
+                                        </div >
+                                    </div>
                                 </div>)
                             }
                             {
@@ -679,7 +681,7 @@ function App() {
                     </div>
                 </div>
                 <div className='footer'>
-                    <p>&copy; 2023 Medical Appointment. All rights reserved.</p>
+                    <p>&copy; 2023 Medical Scheduling Application. Project by poojitha .</p>
                 </div>
             </div >
         </>

@@ -39,7 +39,9 @@ const reminderSchema = new mongoose.Schema({
 });
 
 
+
 const DoctorsSchema = new mongoose.Schema({
+    doctorimage: String,
     usernameDoctor: String,
     accId: String,
     doctorEmail: String,
