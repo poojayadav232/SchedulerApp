@@ -18,37 +18,34 @@ const { findAllDetails,
 
 
 //gettig details from 
-router.get('/api/booking', findAllDetails);//working
+router.get('/api/booking-details', findAllDetails);//working
 
 //getting boking details by id
-router.get('/api/booking/:Id', findDetailsById);//working
+router.get('/api/booking-details/:bookingId', findDetailsById);//working
 
 //finding all customers
-router.get('/api/users', findAllCustomers);//working
+router.get('/api/customers', findAllCustomers);//working
 
 //finding all doctors
 router.get('/api/doctors', findAllDoctors);//working
 
 //finding all reminder 
-router.get('/api/schedule', findAllReminders);//working
+router.get('/api/reminders', findAllReminders);//working
 
 //finding reminder by id
-router.get('/api/schedule/:Id', findRemindersForBooking);//working
+router.get('/api/reminders/:bookingId', findRemindersForBooking);//working
 
 //changing schedule
-router.put('/api/reschedule/:Id', rescheduleBooking, rescheduled);//working
+router.put('/api/reschedule/:bookingId', rescheduleBooking, rescheduled);//working
 
 //cancelling booking 
-router.delete('/api/cancel/:Id', cancelBooking, cancelled);//working
-
-//update reminder sent when a reminder is succesfully sent
-router.put('/api/schedule/:Id', updateNumberOfReminders);//working
+router.delete('/api/cancel/:bookingId', cancelBooking, cancelled);//working
 
 //after apointmnet complete change appointmeents
-router.put('/api/booking/:Id', completeAppointment, completed);//working
+router.put('/api/booking-details/:bookingId', completeAppointment, completed);//working
 
 //creating new appointment
-router.post('/api/booking', newAppointment, newAppointmentmail);//working
+router.post('/api/booking-details', newAppointment, newAppointmentmail);//working
 
 
 

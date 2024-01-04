@@ -1,10 +1,12 @@
 
-const { BookingDetails, Reminder } = require('../models/models');
+const { BookingDetails, Reminder, DoctorsList } = require('../models/models');
+const { v4: uuidv4 } = require('uuid');
 
 //find all users
 exports.findAllDetails = async (req, res) => {
     try {
         const usersinfo = await BookingDetails.find();
+        //console.log(usersinfo);
         res.json(usersinfo);
     } catch (error) {
         console.error('Error finding user:', error);
@@ -14,13 +16,13 @@ exports.findAllDetails = async (req, res) => {
 
 //find booking by booking id
 exports.findDetailsById = async (req, res) => {
-    const { Id } = req.params;
+    const { bookingId } = req.params;
     try {
         const bookingDetails = await BookingDetails.findOne({
-            'bookedServicesData.Id': Id,
+            'bookedServicesData.bookingId': bookingId,
         });
         if (!bookingDetails) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
         return res.status(200).json({ bookingDetails });
     } catch (error) {
@@ -49,10 +51,8 @@ exports.findAllCustomers = async (req, res) => {
 //find all doctors and there emails
 exports.findAllDoctors = async (req, res) => {
     try {
-        const doctors = await BookingDetails.find(
-            { 'doctorEmail': { $exists: true } },
-            { 'usernameDoctor': true, 'doctorEmail': true, _id: 0 }
-        );
+        const doctors = await DoctorsList.find();
+        //console.log(doctors)
         return res.status(200).json({ doctors });
     } catch (error) {
         console.error('Error finding doctors:', error);
@@ -77,12 +77,12 @@ exports.findAllReminders = async (req, res) => {
 
 //find reminder by id
 exports.findRemindersForBooking = async (req, res) => {
-    const { Id } = req.params;
+    const { bookingId } = req.params; // Assuming the booking ID is part of the request parameters
     try {
-        const remindersForBooking = await Reminder.find({ Id });
+        const remindersForBooking = await Reminder.find({ bookingId });
 
         if (!remindersForBooking || remindersForBooking.length === 0) {
-            return res.status(404).json({ message: `No reminders found for booking with ID ${Id}.` });
+            return res.status(404).json({ message: `No reminders found for booking with ID ${bookingId}.` });
         }
         return res.status(200).json({ remindersForBooking });
     } catch (error) {
@@ -92,28 +92,31 @@ exports.findRemindersForBooking = async (req, res) => {
 }
 //change booking time
 exports.rescheduleBooking = async (req, res, next) => {
-    const { Id } = req.params;
+    const { bookingId } = req.params;
     const { selectedDateTime } = req.body;
+    //console.log(req.body)
+
     try {
         // Update booking details
         const updatedBooking = await BookingDetails.findOneAndUpdate(
-            { 'bookedServicesData.Id': Id },
+            { 'bookedServicesData.bookingId': bookingId },
             {
                 $set: {
                     'bookedServicesData.$.meetingStartTime': selectedDateTime,
                     'bookedServicesData.$.isRescheduled': true,
+                    // 'bookedServicesData.$.rescheduledBy': rescheduledBy,
                 },
             },
             { new: true }
         );
 
         if (!updatedBooking) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
 
         // Update reminder
         const updatedReminder = await Reminder.findOneAndUpdate(
-            { Id },
+            { bookingId },
             {
                 $set: {
                     BookingTime: selectedDateTime,
@@ -123,14 +126,14 @@ exports.rescheduleBooking = async (req, res, next) => {
         );
 
         if (!updatedReminder) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
 
         req.rescheduledappointment = {
             todoc: updatedBooking.doctorEmail,
             tocon: updatedBooking.bookedServicesData[0].customerEmail,
             subject: 'Appointment Rescheduled',
-            text: `Appointment with Booking ID ${Id} has been rescheduled. The new meeting time is ${selectedDateTime}.`,
+            text: `Hi there this mail is to Appointment with Booking ID ${bookingId} has been rescheduled. The new meeting time is ${selectedDateTime}.`,
         };
         next();
     } catch (error) {
@@ -142,12 +145,12 @@ exports.rescheduleBooking = async (req, res, next) => {
 
 //canceling booking
 exports.cancelBooking = async (req, res, next) => {
-    const { Id } = req.params;
+    const { bookingId } = req.params;
 
     try {
         // Update booking details
         const updatedBooking = await BookingDetails.findOneAndUpdate(
-            { 'bookedServicesData.Id': Id },
+            { 'bookedServicesData.bookingId': bookingId },
             {
                 $set: {
                     'bookedServicesData.$.isCancelled': true,
@@ -157,21 +160,21 @@ exports.cancelBooking = async (req, res, next) => {
         );
 
         if (!updatedBooking) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
 
         // Remove reminder
-        const removedReminder = await Reminder.findOneAndDelete({ Id });
+        const removedReminder = await Reminder.findOneAndDelete({ bookingId });
 
         if (!removedReminder) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
 
         req.cancelledappointment = {
             todoc: updatedBooking.doctorEmail,
             tocon: updatedBooking.bookedServicesData[0].customerEmail,
             subject: 'Booking Cancelled',
-            text: `Appointment with Booking ID ${Id} has been cancelled.`,
+            text: `Hi there this mail is to inform that Appointment with Booking ID ${bookingId} has been cancelled.`,
         };
         next();
     } catch (error) {
@@ -183,47 +186,52 @@ exports.cancelBooking = async (req, res, next) => {
 
 
 //update reminder sent number of time 
-exports.updateNumberOfReminders = async (req, res) => {
-    const { Id } = req.params;
-
+exports.updateNumberOfReminders = async (id) => {
     try {
+        const currentTime = new Date();
+        const presentTime = new Date(currentTime.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
         // Update reminder
-        const updatedReminder = await Reminder.findOneAndUpdate(
-            { Id },
+        const result = await Reminder.findOneAndUpdate(
+            { 'bookingId': id },
             {
                 $inc: {
-                    numberOfReminders: 1,
+                    'numberOfReminders': 1,
                 },
-            },
-            { new: true }
+                $set: {
+                    'isReminderSuccessful': true,
+                    'lastReminderSentTime': presentTime, // Set lastReminderSentTime to the current time
+                },
+            }
         );
-
-        if (!updatedReminder) {
-            return res.status(404).json({ message: `Reminder for booking with ID ${Id} not found.` });
+        //console.log(result);
+        if (!result) {
+            console.error(`Reminder for booking with ID ${id} not found.`);
         }
-
-        return res.status(200).json({ updatedReminder });
+        else {
+            console.log(`Reminder for booking with ID ${id} found and updated.`);
+        }
     } catch (error) {
         console.error('Error updating number of reminders:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
 
+
 //sucess meeting
 exports.completeAppointment = async (req, res, next) => {
-    const { Id } = req.params;
+    const { bookingId } = req.params;
 
     try {
         // Delete reminder
-        const deletedReminder = await Reminder.findOneAndDelete({ Id });
+        const deletedReminder = await Reminder.findOneAndDelete({ bookingId });
 
         if (!deletedReminder) {
-            return res.status(404).json({ message: `Reminder for booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Reminder for booking with ID ${bookingId} not found.` });
         }
 
+        // Update booking details
         const updatedBooking = await BookingDetails.findOneAndUpdate(
-            { 'bookedServicesData.Id': Id },
+            { 'bookedServicesData.bookingId': bookingId },
             {
                 $set: {
                     'bookedServicesData.$.transactionStatus': 'success',
@@ -236,14 +244,15 @@ exports.completeAppointment = async (req, res, next) => {
         );
 
         if (!updatedBooking) {
-            return res.status(404).json({ message: `Booking with ID ${Id} not found.` });
+            return res.status(404).json({ message: `Booking with ID ${bookingId} not found.` });
         }
 
         req.completedappointment = {
             todoc: updatedBooking.doctorEmail,
             tocon: updatedBooking.bookedServicesData[0].customerEmail,
-            subject: 'Sucessfully completed appointment',
-            text: `Appointment with Booking ID ${Id} has been successfully completed.`,
+            subject: 'Completed Appointment',
+            text: `Hi there this mail is to informyou that 
+            Appointment with Booking ID ${bookingId} has been successfully completed.`,
         };
         next();
     } catch (error) {
@@ -254,22 +263,25 @@ exports.completeAppointment = async (req, res, next) => {
 
 exports.newAppointment = async (req, res, next) => {
     try {
+
+        const uuid1 = uuidv4();
+        const uuid = uuid1.substring(0, 8);
+        const bookingId = "B" + uuid;
+        const orderId = "O" + uuid;
+        const correlationId = "C" + uuid;
+        const transactionId = "T" + uuid;
         const {
-            usernameDoctor,
             accId,
+            usernameDoctor,
             doctorEmail,
             doctorTimezone,
-            Id,
-            orderId,
             customerEmail,
             customerPhoneNumber,
             customerName,
             serviceTitle,
-            transactionId,
             selectedDateTime,
             customerTimezone,
             location,
-            correlationId,
         } = req.body;
 
 
@@ -280,7 +292,7 @@ exports.newAppointment = async (req, res, next) => {
             doctorEmail,
             doctorTimezone,
             bookedServicesData: [{
-                Id,
+                bookingId,
                 orderId,
                 customerEmail,
                 customerPhoneNumber,
@@ -293,15 +305,15 @@ exports.newAppointment = async (req, res, next) => {
                 correlationId,
             }],
         };
-        //console.log(req.parsedFormData);
+        //console.log(req.newAppointmentData);
 
         const createdAppointment = await BookingDetails.create(newAppointmentData);
 
         // Create a reminder for the scheduled meeting
-        const { Id: createdBookingId, customerEmail: createdCustomerEmail } = createdAppointment.bookedServicesData[0];
+        const { bookingId: createdBookingId, customerEmail: createdCustomerEmail } = createdAppointment.bookedServicesData[0];
 
         const newReminderData = {
-            Id: createdBookingId,
+            bookingId: createdBookingId,
             BookingTime: selectedDateTime,
             doctorEmail,
             customerEmail: createdCustomerEmail,
@@ -313,9 +325,10 @@ exports.newAppointment = async (req, res, next) => {
         await Reminder.create(newReminderData);
         req.appointmentDataForEmail = {
             todoc: doctorEmail,
-            tocon: createdCustomerEmail,
-            subject: 'Sucessfully booked appointment',
-            text: `Appointment with Booking ID ${createdBookingId} has been successfully booked.`,
+            tocon: createdCustomerEmail, // Replace with the recipient's email
+            subject: 'Booked Appointment',
+            text: `Hi there this is to inform that
+            Appointment with Booking ID ${createdBookingId} has been successfully booked.`,
         };
         next();
     } catch (error) {
@@ -323,3 +336,26 @@ exports.newAppointment = async (req, res, next) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+exports.getappointmentstime = async (time) => {
+    try {
+        const currentTime = new Date();
+        const presentTime = new Date(currentTime.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000);
+        const futureTime = new Date(currentTime.getTime() + 5 * 60 * 60 * 1000 + 30 * 60 * 1000 + time * 60000); // Calculate future time
+
+        // Fetch upcoming bookings from the database
+        const upcomingBookings = await Reminder.find({
+            'BookingTime': {
+                $gte: presentTime,
+                $lte: futureTime,
+            },
+        });
+
+        //console.log(presentTime, futureTime);
+        return upcomingBookings;
+    } catch (error) {
+        console.error('Error fetching upcoming bookings:', error);
+        throw error;
+    }
+}

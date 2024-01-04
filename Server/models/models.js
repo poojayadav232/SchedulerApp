@@ -6,7 +6,7 @@ const bookingDetailsSchema = new mongoose.Schema({
     doctorEmail: String,
     doctorTimezone: String,
     bookedServicesData: [{
-        Id: String,
+        bookingId: String,
         orderId: String,
         customerEmail: String,
         customerPhoneNumber: String,
@@ -17,11 +17,11 @@ const bookingDetailsSchema = new mongoose.Schema({
         isCancelled: { type: Boolean, default: false },
         numberOfReschedules: { type: Number, default: 0 },
         rescheduledBy: { type: String, default: null },
-        transactionStatus: String,
+        transactionStatus: { type: String, default: 'pending' },
         bookingStatus: { type: String, default: 'pending' },
         meetingStartTime: { type: String, default: 'pending' },
         meetingEndTime: { type: String, default: 'pending' },
-        datetime: String,
+        datetime: Date,
         customerTimezone: String,
         location: String,
         correlationId: String
@@ -29,19 +29,29 @@ const bookingDetailsSchema = new mongoose.Schema({
 });
 
 const reminderSchema = new mongoose.Schema({
-    Id: String,
-    BookingTime: String,
+    bookingId: String,
+    BookingTime: Date,
     doctorEmail: String,
     customerEmail: String,
     numberOfReminders: Number,
-    lastReminderSentTime: String,
+    lastReminderSentTime: Date,
     isReminderSuccessful: Boolean,
 });
 
+
+const DoctorsSchema = new mongoose.Schema({
+    usernameDoctor: String,
+    accId: String,
+    doctorEmail: String,
+    doctorTimezone: String
+});
+
+const DoctorsList = mongoose.model('DoctorsList', DoctorsSchema);
 const BookingDetails = mongoose.model('BookingDetails', bookingDetailsSchema);
 const Reminder = mongoose.model('Reminder', reminderSchema);
 
 module.exports = {
     BookingDetails,
-    Reminder
+    Reminder,
+    DoctorsList
 }

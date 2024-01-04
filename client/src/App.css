@@ -1,66 +1,146 @@
-* {
-  box-sizing: border-box;
+/* Add this to your CSS stylesheet */
+/* added sidebar css */
+.App {
+  width: 100vw;
+  height: 100vw;
+  background-color: white;
 }
 
-/* Navigation */
-.nav-list {
-  list-style-type: none;
-  display: flex;
-  gap: 1%;
-  padding: 1%;
-  background-color: #3498db;
-  /* Blue background color */
-}
-
-.nav-item {
-  margin-right: 1%;
-}
-
-/* Body */
 body {
-  background-color: #3f3d3d;
-  /* Dark gray background color */
-  color: #fff;
-  /* White text color */
+  margin: 0;
+  padding: 0;
+  background-color: rgb(92, 82, 82);
 }
 
-/* Container */
-.container {
-  padding: 1%;
-  background-color: #252323;
-  /* Dark brown background color */
-  max-width: 75%;
+.Sidebar {
+  height: 100%;
+  width: 15%;
+  background-color: rgb(45, 49, 49);
+}
+
+ul {
+  padding-inline-start: 0;
+}
+
+.sidebarlist {
   height: auto;
-  margin: 10% auto;
-  overflow-y: auto;
+  width: auto;
+  list-style: none;
+  position: relative;
 }
 
-.section-heading {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3498db;
-  /* Blue color for section heading */
-  margin-bottom: 10px;
+.sidebarlist #active {
+  background-color: #293846;
 }
 
-/* Button */
-.btn {
-  border: none;
-  padding: 7px 15px;
-  font-size: 18px;
-  border-radius: 5px;
-  background-color: #3498db;
-  /* Purple button color */
+.sidebarlist .row {
+  height: auto;
+  padding: 0;
+  padding-bottom: 10%;
+  padding-top: 10%;
+  width: 100%;
+  /* border-bottom: solid rgb(250, 250, 250); */
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  font-family: cursive;
+}
+
+.sidebarlist .row:hover {
   cursor: pointer;
-  color: #fff;
-  /* White text color */
+  background-color: #293846;
 }
 
-/* Add Container */
+.row #icon {
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.row #title {
+  flex: 70%;
+}
+
+
+/* herder div */
+.header {
+  width: 100%;
+  height: 10vh;
+  background-color: rgb(45, 49, 49);
+}
+
+.footer {
+  width: 100%;
+  height: 10vh;
+  background-color: rgb(45, 49, 49);
+}
+
+.centerpart {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  position: relative;
+}
+
+.content {
+  position: relative;
+  width: 85%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* no css */
+
+.container {
+  background-color: rgb(37, 35, 35);
+  overflow-y: auto;
+  width: auto;
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 15px 20px;
+  background-color: #addaf8;
+  color: #090909;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btnnew {
+  display: inline-block;
+  padding: auto auto auto auto;
+  background-color: #2e7498;
+  color: #090909;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
 .addcontainer {
   position: relative;
-  background-color: #fff;
-  /* White background color */
+  background-color: rgb(43, 40, 40);
   left: 0;
   right: 0;
   bottom: 0;
@@ -74,13 +154,12 @@ body {
   width: 70%;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  /* White background color */
+  background-color: rgb(216, 154, 154);
   padding: 5% 4%;
-  box-shadow: 5px 5px 10px #888888;
-  /* Dark gray box shadow */
+  box-shadow: 5px 5px 10px grey;
   border-radius: 5px;
 }
+
 
 .addcontainer form {
   font-size: 20px;
@@ -88,8 +167,6 @@ body {
 
 .addcontainer form label {
   font-size: 20px;
-  color: #333;
-  /* Dark gray text color */
 }
 
 .addcontainer form input {
@@ -97,28 +174,17 @@ body {
   padding: 5px;
   margin-top: 5px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  /* Light gray border */
-  border-radius: 3px;
 }
 
 .close-btn {
   margin-left: 90%;
-  background-color: #e74c3c;
-  /* Red close button color */
+  background-color: red;
   width: 20px;
   font-size: 18px;
-  cursor: pointer;
-  color: #fff;
-  /* White text color */
 }
 
-/* Table Container */
-.tableContainer {
-  margin-top: 5%;
-  overflow-x: auto;
-  /* Add horizontal scroll for overflowing content */
-}
+/* Base styling for the table */
+
 
 .tableContainer table {
   width: 100%;
@@ -126,57 +192,55 @@ body {
 }
 
 .tableContainer table thead tr {
-  background-color: #e74c3c;
-  /* Red background color for table header */
-  color: #fff;
-  /* White text color */
+  background-color: grey;
 }
 
 .tableContainer table tbody tr {
-  background-color: #383c3b;
-  /* Aquamarine background color for table rows */
+  background-color: white;
+  border: solid;
 }
 
 .tableContainer table thead tr th,
 .tableContainer table tbody tr td {
   padding: 1%;
   overflow-x: auto;
+  scroll-behavior: hidden;
+
 }
 
-/* Responsive styling using media queries */
-@media screen and (max-width: 768px) {
-
-  .tableContainer table thead tr th,
-  .tableContainer table tbody tr td {
-    min-width: auto;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Navigation for smaller screens */
-  .nav-list {
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-  }
-
-  /* Button for smaller screens */
-  .btn {
-    width: 100%;
-    margin-bottom: 5px;
-  }
-}
-
-/* Date Picker Container */
 .date-picker-container {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-/* Apply different styles for screens with a max-width of 768 pixels */
-@media (max-width: 768px) {
+/* Responsive styling using media queries */
+
+table {
+  height: auto;
+}
+
+
+@media screen and (max-width: 500px) {
+
+  .tableContainer table thead tr th,
+  .tableContainer table tbody tr td {
+    /* Reset the minimum width for smaller screens */
+    display: block;
+    width: auto;
+    box-sizing: border-box;
+  }
+
+  .container {
+    position: relative;
+    width: auto;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
   .date-picker-container {
     flex-direction: column;
     align-items: flex-start;
@@ -192,4 +256,64 @@ body {
     overflow-x: auto;
     max-width: 200px;
   }
+
+  .centerpart {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+  }
+
+  .Sidebar {
+    width: 100%;
+    height: 20%;
+  }
+
+  .sidebarlist {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .content {
+    position: relative;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+  }
+
+  .addcontainer form {
+    width: 100%;
+    align-items: start;
+    display: grid;
+  }
+}
+
+.top img {
+  width: 100%;
+  height: auto;
+}
+
+.para {
+  justify-content: center;
+}
+
+.homesect {
+  color: wheat
+}
+
+.para p {
+  width: 100%;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.image-container img {
+  padding: 10px;
+  width: 50vh;
+  height: 35vh;
+  border-radius: 5vh;
 }
