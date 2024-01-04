@@ -11,8 +11,8 @@ import { GrTree } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
 
 
-//axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "https://schedulerapp-ecgg.onrender.com";
+//axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
 
